@@ -16,3 +16,13 @@ wss.on('connection', (ws) => {
   console.log('Client connected');
   ws.on('close', () => console.log('Client disconnected'));
 });
+
+wss.on('message', function incoming(data) {
+  console.log(data);
+});
+
+//keep awake
+var http = require("http");
+setInterval(function() {
+    http.get("http:/battle-bane.herokuapp.com");
+}, 300000); // every 5 minutes (300000)
