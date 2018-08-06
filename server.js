@@ -13,13 +13,13 @@ const server = express()
 const wss = new SocketServer({ server });
 
 wss.on('connection', (ws) => {
-  console.log('Client connected');
+  console.log('Client connected'); 
+  ws.on('message', function incoming(message) {
+    console.log('received: %s', message);
+  });
   ws.on('close', () => console.log('Client disconnected'));
 });
 
-wss.on('message', function incoming(data) {
-  console.log(data);
-});
 
 //keep awake
 const http = require("http");
