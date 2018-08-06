@@ -29,5 +29,5 @@ wss.on('connection', (ws) => {
 //keep awake
 const http = require("http");
 setInterval(function() {
-    http.get("http:/battle-bane.herokuapp.com");
+    http.get("http://battle-bane.herokuapp.com");
 }, 300000); // every 5 minutes (300000)
