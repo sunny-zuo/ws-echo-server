@@ -16,11 +16,11 @@ wss.on('connection', (ws) => {
   console.log('Client connected'); 
   ws.on('message', function incoming(data) {
     console.log('received: %s', data);
-  });
-  wss.clients.forEach(function each(client) {
+	wss.clients.forEach(function each(client) {
       if (client !== ws && client.readyState === WebSocket.OPEN) {
         client.send(data);
       }
+	});
   });
   ws.on('close', () => console.log('Client disconnected'));
 });
