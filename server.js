@@ -2,6 +2,7 @@
 
 const express = require('express');
 const SocketServer = require('ws').Server;
+const WebSocket = require('ws');
 const path = require('path');
 
 const PORT = process.env.PORT || 3000;
@@ -15,11 +16,11 @@ wss.on('connection', (ws) => {
   console.log('Client connected'); 
   ws.on('message', function incoming(data) {
     console.log('received: %s', data);
-	wss.clients.forEach(function each(client) {
-      if (client.readyState === SocketServer.OPEN) {
+	  wss.clients.forEach(function each(client) {
+      if (client.readyState === WebSocket.OPEN) {
         client.send(data);
       }
-	});
+	  });
   });
   ws.on('close', () => console.log('Client disconnected'));
 });
