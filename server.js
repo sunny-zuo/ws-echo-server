@@ -22,6 +22,9 @@ const wss = new SocketServer({ server });
 wss.on('connection', (ws) => { // when the socket server has a connection, this function is ran. ws represents the client.
   console.log('Client connected');
   ws.on('message', function incoming(data) { // once the client sends a message, this function is ran
+    if (data == '<policy-file-request/>\0') {
+      console.log("policy request");
+    }
 	  wss.clients.forEach(function each(client) { // finds all of the connected clients, and tries to send the message to all of them
       if (client.readyState === WebSocket.OPEN) { // if the client is ready to receive messages, send them the message we just received.
         client.send(data);
