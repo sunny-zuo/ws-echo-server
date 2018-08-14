@@ -12,11 +12,11 @@ process.env.PORT is a runtime variable that can be set on Heroku.
 However, when deploying on Heroku, the port seems to be ignored.
 */
 
-const mainServer = express()
+const server = express()
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 // creates the server and logs the port it's running on
 
-const wss = new SocketServer({ mainServer });
+const wss = new SocketServer({ server });
 // creates the websocket server
 
 wss.on('connection', (ws) => { // when the socket server has a connection, this function is ran. ws represents the client.
@@ -48,11 +48,11 @@ setInterval(function() {
 
 var net = require('net');
 
-var server = net.createServer(handler);
-var port1 = process.env.PORT ||  843;
+var serverNet = net.createServer(handler);
+var port1 = process.env.PORTTWO ||  843;
 
-server.listen(port1, function () {
-  console.log('Server listening at port %d', port1);
+serverNet.listen(port1, function () {
+  console.log('ServerNet listening at port %d', port1);
 });
 
 function handler (socket) {
