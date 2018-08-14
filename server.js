@@ -49,10 +49,10 @@ setInterval(function() {
 var net = require('net');
 
 var server = net.createServer(handler);
-var port = process.env.PORT ||  843;
+var port1 = process.env.PORT ||  843;
 
-server.listen(port, function () {
-  console.log('Server listening at port %d', port);
+server.listen(port1, function () {
+  console.log('Server listening at port %d', port1);
 });
 
 function handler (socket) {
