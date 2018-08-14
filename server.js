@@ -12,11 +12,11 @@ process.env.PORT is a runtime variable that can be set on Heroku.
 However, when deploying on Heroku, the port seems to be ignored.
 */
 
-const server = express()
+const mainServer = express()
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 // creates the server and logs the port it's running on
 
-const wss = new SocketServer({ server });
+const wss = new SocketServer({ mainServer });
 // creates the websocket server
 
 wss.on('connection', (ws) => { // when the socket server has a connection, this function is ran. ws represents the client.
@@ -42,31 +42,54 @@ and will reboot once a request is received. This takes time, usually around 20 s
 const http = require("http");
 setInterval(function() {
     http.get("http://battle-bane.herokuapp.com");
-}, 300000); // every 5 minutes (300000)
+}, 300000); // every 5 minutes (300000) 
 
+///
 
-var serverOne   = require('http').createServer();
-var io       = require('socket.io')(server);
+var net = require('net');
 
-var port = 80;
+var server = net.createServer(handler);
+var port = process.env.PORT ||  843;
 
-var xml = '<?xml version="1.0"?>\n<!DOCTYPE cross-domain-policy SYSTEM \n"http://www.adobe.com/xml/dtds/cross-domain-policy.dtd">\n<cross-domain-policy>\n';
-    xml += '<site-control permitted-cross-domain-policies="master-only"/>\n';
-    xml += '<allow-access-from domain="*" to-ports="*"/>\n';
-    xml += '</cross-domain-policy>\n';
-
-io.on('connection', function (socket) {
-    socket.on('<policy-file-request/>\0', function (data) {
-        console.log('socket policy-file-request 0');
-        socket.emit('<policy-file-request/>\0', xml);
-    });
-
-    socket.on('<policy-file-request/>', function (data) {
-        console.log('socket policy-file-request');
-        socket.emit('<policy-file-request/>', xml);
-    });
+server.listen(port, function () {
+  console.log('Server listening at port %d', port);
 });
 
-serverOne.listen(port, function () {
-    info('SocketIO Server listening at ' + port);
-});
+function handler (socket) {
+     socket.setEncoding("utf8");
+ 
+     socket.write(xmlPolicy() + '\0');
+ 
+     function policy_check(data) {
+          socket.removeListener('data', policy_check); 
+          try {
+               if(data == '<policy-file-request/>\0') {
+                    socket.write(xmlPolicy());
+					socket.end();
+               }
+          } catch (ex) {
+               console.log(ex);
+          }
+     }
+ 
+     socket.on('data', policy_check);
+ 
+     socket.on("error", function (exception) {
+          socket.end();
+     });
+     socket.on("timeout", function () {
+          socket.end();
+     });
+     socket.on("close", function (had_error) {
+          socket.end();
+     });
+}
+ 
+function xmlPolicy() {
+     var policy = '<?xml version="1.0"?>\n<!DOCTYPE cross-domain-policy SYSTEM'
+     policy += ' "http://www.macromedia.com/xml/dtds/cross-domain-policy.dtd">';
+     policy += '\n<cross-domain-policy>\n';
+     policy += '<allow-access-from domain="*" to-ports="*"/>\n';
+     policy += '</cross-domain-policy>\n';
+     return policy;
+}
