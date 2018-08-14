@@ -1,5 +1,5 @@
 'use strict'; // enables strict mode that will throw more exceptions for errors
-
+/*
 const express = require('express'); // imports a web framework for nodejs
 const WebSocket = require('ws'); // imports the websocket framework
 const SocketServer = require('ws').Server; // imports the websocket server framework
@@ -11,7 +11,7 @@ Picks the port that the server will run on.
 process.env.PORT is a runtime variable that can be set on Heroku.
 However, when deploying on Heroku, the port seems to be ignored.
 */
-
+/*
 const server = express()
   .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 // creates the server and logs the port it's running on
@@ -33,6 +33,7 @@ wss.on('connection', (ws) => { // when the socket server has a connection, this 
   });
   ws.on('close', () => console.log('Client disconnected')); // once the client leaves, this function is ran. all that is done right now is to log that they have disconnected.
 });
+*/
 
 
 /* the code below has the server essentially ping itself.
