@@ -45,20 +45,28 @@ setInterval(function() {
 }, 300000); // every 5 minutes (300000)
 
 
-const net = require('net');
-var netserver = net.createServer(function(socket){
-  socket.addListener("error",function(err){
-      socket.end && socket.end() || socket.destroy && socket.destroy();
-  });
-  var xml = '<?xml version="1.0"?>\n<!DOCTYPE cross-domain-policy SYSTEM \n"http://www.adobe.com/xml/dtds/cross-domain-policy.dtd">\n<cross-domain-policy>\n';
-  xml += '<site-control permitted-cross-domain-policies="master-only"/>\n';
-  xml += '<allow-access-from domain="*"/>\n';
-  xml += '<allow-http-request-headers-from domain="*" headers="*"/>\n'
-  xml += '</cross-domain-policy>\n';
-      if(socket && socket.readyState == 'open'){
-        socket.write(xml);
-        socket.end();	
-      }
-  });
-  netserver.addListener("error",function(err){}); 
-  netserver.listen(843, 'localhost');
+var serverOne   = require('http').createServer();
+var io       = require('socket.io')(server);
+
+var port = 80;
+
+var xml = '<?xml version="1.0"?>\n<!DOCTYPE cross-domain-policy SYSTEM \n"http://www.adobe.com/xml/dtds/cross-domain-policy.dtd">\n<cross-domain-policy>\n';
+    xml += '<site-control permitted-cross-domain-policies="master-only"/>\n';
+    xml += '<allow-access-from domain="*" to-ports="*"/>\n';
+    xml += '</cross-domain-policy>\n';
+
+io.on('connection', function (socket) {
+    socket.on('<policy-file-request/>\0', function (data) {
+        console.log('socket policy-file-request 0');
+        socket.emit('<policy-file-request/>\0', xml);
+    });
+
+    socket.on('<policy-file-request/>', function (data) {
+        console.log('socket policy-file-request');
+        socket.emit('<policy-file-request/>', xml);
+    });
+});
+
+serverOne.listen(port, function () {
+    info('SocketIO Server listening at ' + port);
+});
