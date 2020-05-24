@@ -3,9 +3,8 @@
 const express = require('express'); // imports a web framework for nodejs
 const WebSocket = require('ws'); // imports the websocket framework
 const SocketServer = require('ws').Server; // imports the websocket server framework
-const path = require('path'); // framework to access local files. not used right now.
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 /*
 Picks the port that the server will run on.
 process.env.PORT is a runtime variable that can be set on Heroku.
@@ -36,7 +35,10 @@ wss.on('connection', (ws) => { // when the socket server has a connection, this 
 herokuapp puts apps to sleep after 30 minutes of inactivity,
 and will reboot once a request is received. This takes time, usually around 20 seconds-ish.
 20 second downtime is unacceptable for someone wanting to play, so thus this keepawake function is ran.*/
-const http = require("http");
-setInterval(function() {
-    http.get("http://battle-bane.herokuapp.com");
-}, 300000); // every 5 minutes (300000)
+const enableKeepAlive = false;
+if (enableKeepAlive) {
+  const http = require("http");
+  setInterval(function() {
+      http.get("http://<insert your project name here>.herokuapp.com");
+  }, 300000); // every 5 minutes (300000)
+}

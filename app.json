@@ -1,4 +1,4 @@
 {
-  "name": "BattleBane Server",
-  "description": "server code for battlebane"
+  "name": "WebSocket Echo Server",
+  "description": "Simple echo server for websocket connections"
 }

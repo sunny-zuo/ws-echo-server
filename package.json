@@ -1,21 +1,24 @@
 {
-  "name": "battlebaneserver",
+  "name": "echo-server",
   "version": "1.0.0",
+  "repository": "github:sunny-zuo/WebSocketEchoServer",
   "engines": {
-    "node": "8.11.3"
+    "node": ">=0.10.0"
   },
-  "description": "",
+  "description": "Simple echo server for websocket connections",
   "main": "index.js",
   "scripts": {
     "start": "node server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Sunny Zuo <me@sunnyzuo.com> (https://github.com/sunny-zuo)",
   "license": "ISC",
   "dependencies": {
-    "bufferutil": "1.2.1",
-    "express": "4.13.4",
-    "utf-8-validate": "1.2.1",
-    "ws": "1.1.0"
+    "express": "^4.17.1",
+    "ws": "^7.3.0"
+  },
+  "devDependencies": {
+    "bufferutil": "^4.0.1",
+    "utf-8-validate": "^5.0.2"
   }
 }
