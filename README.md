@@ -6,6 +6,7 @@ This was originally designed as a server reference for simple multiplayer games 
 
 ## Configuration
 - The server utilizes the `PORT` environment variable as the port, and defaults to 8080.
+- To enable the keep-alive feature for running on Heroku or other platforms that allows inactive apps to sleep, set `KEEP_ALIVE` to true and set the `URL` environment variable to point towards your app.
 
 ## Running the Server
 ```

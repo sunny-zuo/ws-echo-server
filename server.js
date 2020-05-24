@@ -35,10 +35,10 @@ wss.on('connection', (ws) => { // when the socket server has a connection, this 
 herokuapp puts apps to sleep after 30 minutes of inactivity,
 and will reboot once a request is received. This takes time, usually around 20 seconds-ish.
 20 second downtime is unacceptable for someone wanting to play, so thus this keepawake function is ran.*/
-const enableKeepAlive = false;
+const enableKeepAlive = process.env.KEEP_ALIVE || false;
 if (enableKeepAlive) {
   const http = require("http");
   setInterval(function() {
-      http.get("http://<insert your project name here>.herokuapp.com");
-  }, 300000); // every 5 minutes (300000)
+      http.get(process.env.URL);
+  }, 1000 * 60 * 5); // every 5 minutes
 }
