@@ -14,7 +14,7 @@
   "author": "Sunny Zuo <me@sunnyzuo.com> (https://github.com/sunny-zuo)",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "ws": "^7.3.0"
   },
   "devDependencies": {
